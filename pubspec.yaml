@@ -48,6 +48,8 @@ flutter:
     - assets/images/Introduction_1.png
     - assets/images/Introduction_2.png
     - assets/images/wanderlust_logo.png
+    - assets/images/vietnamflag.png
+    - assets/images/IconAppBar.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

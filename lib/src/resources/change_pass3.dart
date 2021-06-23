@@ -39,10 +39,10 @@ class _changePasswordState extends State<changePassword> {
               Positioned(
                   child: Image.asset(
                 "assets/images/wanderlust_logo.png",
-                width: size.width * 0.8,
+                width: size.width * 0.4,
               )),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 6),
                 child: Text(
                   "Đổi mật khẩu mới",
                   style: TextStyle(

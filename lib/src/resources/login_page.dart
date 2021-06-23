@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderlust_1/src/resources/home.dart';
+import 'package:wanderlust_1/src/resources/nav.dart';
 import 'package:wanderlust_1/src/resources/register_page.dart';
 import 'change_pass1.dart';
 
@@ -10,12 +12,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
-  // LoginBloc  bloc = new LoginBloc();
   bool _showPass = false;
   TextEditingController _userController = new TextEditingController();
+  // TextEditingController _userController = TextField( controller: controller);
+  // controller.addListener((){
+  //
+  // })
   TextEditingController _passController = new TextEditingController();
-  var _userNameErr = "Tài khoản không hợp lệ";
-  var _passErr = "Mật khẩu phải trên 6 ký tự";
+  var _userNameErr = "Tài khoản không tồn tại";
+  var _passErr = "Sai mật khẩu";
   var _userInvalid = false;
   var _passInvalid = false;
 
@@ -90,8 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white,
                               fontSize: 18), //text nhập vào
                           controller: _userController,
+
                           decoration: InputDecoration(
                               labelText: "EMAIL",
+                              errorText: _userInvalid ? _userNameErr : null,
                               prefixIcon: Container(
                                 width: 50,
                                 child: new Icon(
@@ -126,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: !_showPass,
                             decoration: InputDecoration(
                                 labelText: "MẬT KHẨU",
+                                errorText: _passInvalid ? _passErr : null,
                                 prefixIcon: Container(
                                   width: 50,
                                   child:
@@ -139,20 +147,23 @@ class _LoginPageState extends State<LoginPage> {
                                         color: Colors.black, width: 1),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
-                                errorText: _passInvalid ? _passErr : null,
                                 labelStyle: TextStyle(
                                     color: Color(0xffFFFFFF), fontSize: 18)),
                           ),
                           GestureDetector(
                               //handle action
                               onTap: onShowPass,
-                              child: Text(
-                                _showPass ? "HIDE" : "SHOW",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold),
-                              ))
+                              child: _showPass
+                                  ? Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.white70,
+                                      size: 28,
+                                    )
+                                  : Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: Colors.white70,
+                                      size: 28,
+                                    )),
                         ],
                       ),
                     )),
@@ -175,17 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                // Container(
-                //   constraints: BoxConstraints.loose(Size(double.infinity, 30)),
-                //   alignment: AlignmentDirectional.centerEnd, //le phai
-                //   child: Padding(
-                //     padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                //     child: Text(
-                //       "Forgot password",
-                //       style: TextStyle(fontSize: 16, color: Colors.blue),
-                //     ),
-                //   ),
-                // ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 40),
                   child: SizedBox(
@@ -203,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular((30))),
                       ),
-                      onPressed: () {},
+                      onPressed: onSignInClick,
                     ),
                   ),
                 ),
@@ -244,8 +245,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void onSignInClick() {
     setState(() {
-      if (_userController.text.length < 6 ||
-          !_userController.text.contains("@")) {
+      if (!_userController.text.contains("@")) {
         _userInvalid = true;
       } else {
         _userInvalid = false;
@@ -255,12 +255,11 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         _passInvalid = false;
       }
-
-      // if (!(_userInvalid && _passInvalid)) {
-      //   // Navigator.push(context, MaterialPageRoute(builder: gotoHome))//chuyen man hinh
-      //   Navigator.push(
-      //       context, MaterialPageRoute(builder: (context) => HomePage()));
-      // }
+      if (!_userInvalid && !_passInvalid) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Nav()));
+        print('Email: ${_userController.text}');
+        print('Mật khẩu: ${_passController.text}');
+      }
     });
   }
 

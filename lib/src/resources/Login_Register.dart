@@ -88,15 +88,31 @@ class _login_registerState extends State<login_register> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 6),
-            child: Text(
-              "Nhấn vào Đăng nhập hoặc Đăng ký là bạn đã đọc và đồng ý với Điều khoản & Tiêu Chuẩn Cộng Đồng của chúng tôi",
-              style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white,
-                  fontSize: 18),
-            ),
-          ),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 6),
+              child: RichText(
+                  text: TextSpan(
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      // style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                    TextSpan(
+                        text:
+                            "Nhấn vào Đăng nhập hoặc Đăng ký là bạn đã đọc và đồng ý với "),
+                    TextSpan(
+                      text: "Điều khoản",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    TextSpan(text: " & "),
+                    TextSpan(
+                        text: "Tiêu Chuẩn Cộng Đồng",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        )),
+                    TextSpan(
+                      text: " của chúng tôi",
+                    )
+                  ]))),
         ]),
       ),
     );

@@ -40,10 +40,10 @@ class _changePassPageState extends State<changePassPage> {
               Positioned(
                   child: Image.asset(
                 "assets/images/wanderlust_logo.png",
-                width: size.width * 0.8,
+                width: size.width * 0.4,
               )),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 6),
                 child: Text(
                   "Hãy điền địa chỉ email của bạn",
                   style: TextStyle(color: Colors.white, fontSize: 19),

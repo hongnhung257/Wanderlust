@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:wanderlust_1/src/resources/change_pass1.dart';
 import 'package:wanderlust_1/src/resources/register_page.dart';
 
@@ -40,10 +39,10 @@ class _getCodeState extends State<getCode> {
               Positioned(
                   child: Image.asset(
                 "assets/images/wanderlust_logo.png",
-                width: size.width * 0.8,
+                width: size.width * 0.4,
               )),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 6),
                 child: Text(
                   "Nhập mã xác nhận",
                   style: TextStyle(color: Colors.white, fontSize: 20),

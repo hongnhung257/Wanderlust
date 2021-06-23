@@ -9,11 +9,19 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool _showPass = false;
-  // TextEditingController _userController = new TextEditingController();
+  bool _showPass1 = false;
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _userController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
   TextEditingController _passController_1 = new TextEditingController();
-  var _passErr = "Mật khẩu không đúng";
+  var _nameErr = "Bạn chưa nhập Họ tên";
+  var _userNameErr = "Email không hợp lệ";
+  var _passErr = "Mật khẩu phải trên 6 ký tự";
+  var _passErr_1 = "Mật khẩu đã nhập không khớp";
+  var _nameInvalid = false;
+  var _userInvalid = false;
   var _passInvalid = false;
+  var _passInvalid_1 = false;
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -94,8 +102,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TextField(
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18),
+                                  controller: _nameController,
                                   decoration: InputDecoration(
                                       labelText: "Họ tên",
+                                      errorText: _nameInvalid ? _nameErr : null,
                                       prefixIcon: Container(
                                         width: 50,
                                         child: new Icon(
@@ -123,8 +133,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: TextField(
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 18),
+                                    controller: _userController,
                                     decoration: InputDecoration(
                                         labelText: "Email",
+                                        errorText:
+                                            _userInvalid ? _userNameErr : null,
                                         prefixIcon: Container(
                                           width: 50,
                                           child: new Icon(
@@ -160,6 +173,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           obscureText: !_showPass,
                                           decoration: InputDecoration(
                                               labelText: "Mật khẩu",
+                                              errorText: _passInvalid
+                                                  ? _passErr
+                                                  : null,
                                               prefixIcon: Container(
                                                 width: 50,
                                                 child: new Icon(
@@ -182,13 +198,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                         GestureDetector(
                                             //handle action
                                             onTap: onShowPass,
-                                            child: Text(
-                                              _showPass ? "Hide" : "SHOW",
-                                              style: TextStyle(
-                                                  color: Colors.teal,
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.bold),
-                                            ))
+                                            child: _showPass
+                                                ? Icon(
+                                                    Icons.remove_red_eye,
+                                                    color: Colors.grey,
+                                                    size: 28,
+                                                  )
+                                                : Icon(
+                                                    Icons
+                                                        .remove_red_eye_rounded,
+                                                    color: Colors.grey,
+                                                    size: 28,
+                                                  )),
                                       ]))),
                           Padding(
                               padding: const EdgeInsets.fromLTRB(30, 15, 30, 0),
@@ -205,9 +226,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 18),
                                       controller: _passController_1,
-                                      obscureText: !_showPass,
+                                      obscureText: !_showPass1,
                                       decoration: InputDecoration(
                                           labelText: "Nhập lại mật khẩu",
+                                          errorText: _passInvalid_1
+                                              ? _passErr_1
+                                              : null,
                                           prefixIcon: Container(
                                             width: 50,
                                             child: new Icon(
@@ -221,22 +245,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   width: 1),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10))),
-                                          errorText:
-                                              _passInvalid ? _passErr : null,
                                           labelStyle: TextStyle(
                                               color: Color(0xff888888),
                                               fontSize: 18)),
                                     ),
                                     GestureDetector(
                                         //handle action
-                                        onTap: onShowPass,
-                                        child: Text(
-                                          _showPass ? "HIDE" : "SHOW",
-                                          style: TextStyle(
-                                              color: Colors.teal,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        ))
+                                        onTap: onShowPass1,
+                                        child: _showPass1
+                                            ? Icon(
+                                                Icons.remove_red_eye,
+                                                color: Colors.grey,
+                                                size: 28,
+                                              )
+                                            : Icon(
+                                                Icons.remove_red_eye_rounded,
+                                                color: Colors.grey,
+                                                size: 28,
+                                              )),
                                   ],
                                 ),
                               )),
@@ -246,7 +272,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               width: double.infinity,
                               height: 52,
                               child: RaisedButton(
-                                onPressed: onSiginClick,
+                                onPressed: onClick,
                                 child: Text(
                                   "BẮT ĐẦU",
                                   style: TextStyle(
@@ -263,7 +289,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: RichText(
                               text: TextSpan(
                                   text: "Bạn đã có tài khoản? ",
@@ -304,15 +330,42 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  void onSiginClick() {
+  void onShowPass1() {
     setState(() {
-      if (_passController != _passController_1) {
+      _showPass1 = !_showPass1;
+    });
+  }
+
+  void onClick() {
+    setState(() {
+      if (!(_nameController.text.isEmpty)) {
+        _nameInvalid = false;
+      } else {
+        _nameInvalid = true;
+      }
+      if (!_userController.text.contains("@")) {
+        _userInvalid = true;
+      } else {
+        _userInvalid = false;
+      }
+      if (_passController.text.length < 6) {
         _passInvalid = true;
       } else {
         _passInvalid = false;
       }
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+
+      if (_passController_1.text != _passController.text) {
+        _passInvalid_1 = true;
+      } else {
+        _passInvalid_1 = false;
+      }
+      if (!_userInvalid && !_passInvalid && !_nameInvalid && !_passInvalid_1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        print('Ho tên: ${_nameController.text}');
+        print('Email: ${_userController.text}');
+        print('Mật khẩu: ${_passController.text}');
+      }
     });
   }
 }
